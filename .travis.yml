@@ -33,13 +33,14 @@ matrix:
       after_success:
         - bash <(curl -s https://codecov.io/bash) -f lcov.info
 
-    # Runs builds on android (emulator currently not available).
+    # Runs builds only on android (emulator currently not available).
     - env: JOB=DRIVER-ANDROID
-      android:
-        components:
-          - tools
-          - platform-tools
-          - tools
+       language: android
+#       android:
+#        components:
+#          - tools
+#          - platform-tools
+#          - tools
        sudo: false
        addons:
          apt:
