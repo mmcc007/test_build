@@ -15,12 +15,12 @@ runDriver () {
         flutter packages pub run build_runner build --delete-conflicting-outputs
       fi
       # todo: get input on MVU project to run with driver for screen input
-      if [ $uname == "Darwin" ]; then
+#      if [ $uname == "Darwin" ]; then
         flutter driver test_driver/todo_app.dart
-      else
+#      else
         # android emulator not available in travis so just build apk
-        flutter build apk
-      fi
+#        flutter build apk
+#      fi
     fi
   fi
 }
