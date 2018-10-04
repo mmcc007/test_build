@@ -60,4 +60,4 @@ fi
 
 # expects to find most apps at second directory level
 #find . -maxdepth 2 -type directory -exec bash -c 'runDriver "$0"' {} \;
-runDriver "./example/firestore_redux"
+runDriver "./example/simple_bloc_flutter"
