@@ -59,4 +59,5 @@ if isVarSet $1; then
 fi
 
 # expects to find most apps at second directory level
-find . -maxdepth 2 -type d -exec bash -c 'runDriver "$0"' {} \;
+#find . -maxdepth 2 -type directory -exec bash -c 'runDriver "$0"' {} \;
+runDriver "./example/bloc_flutter"

@@ -1,6 +1,10 @@
+env:
+  global:
+    - EMULATOR_API_LEVEL=22
+    - ANDROID_ABI="default;armeabi-v7a"
 matrix:
-  # This causes the build to complete immediately upon first failure or once
-  # required jobs are green.
+  # This causes the build to complete immediately upon first failure or success
+  # of required jobs, allowing non-required jobs to continue
   fast_finish: true
 
   # Building APK/IPA takes a long time; do not wait for them to finish.
@@ -34,12 +38,6 @@ matrix:
         - bash <(curl -s https://codecov.io/bash) -f lcov.info
 
     - env: JOB=DRIVER-ANDROID
-      global:
-        - ANDROID_API_LEVEL=27
-        - EMULATOR_API_LEVEL=22
-        - ANDROID_BUILD_TOOLS_VERSION=27.0.3
-        - ANDROID_ABI="default;armeabi-v7a"
-        - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
       os: linux
       language: android
       android:
