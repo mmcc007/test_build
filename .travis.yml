@@ -33,31 +33,31 @@ matrix:
       after_success:
         - bash <(curl -s https://codecov.io/bash) -f lcov.info
 
-    # Runs builds only on android (emulator currently not available).
     - env: JOB=DRIVER-ANDROID
-       language: android
-#       android:
-#        components:
-#          - tools
-#          - platform-tools
-#          - tools
-       sudo: false
-       addons:
-         apt:
-           # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
-           sources:
-             - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
-           packages:
-             - libstdc++6
-             - fonts-droid
-       before_script:
-         - git clone https://github.com/flutter/flutter.git -b beta
-         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
-         - flutter precache
-         - flutter doctor
-         - pub global activate coverage
-       script:
-         - ./script/runDriver.sh
+      os: linux
+      language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - tools
+      sudo: false
+      addons:
+        apt:
+          # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
+          sources:
+            - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
+          packages:
+            - libstdc++6
+            - fonts-droid
+      before_script:
+        - git clone https://github.com/flutter/flutter.git -b beta
+        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+        - flutter precache
+        - flutter doctor
+        - pub global activate coverage
+      script:
+        - ./script/runDriver.sh
 
     # Builds and runs integration tests on ios.
     - env: JOB=DRIVER-IOS
