@@ -3,25 +3,25 @@
 <plist version="1.0">
 <dict>
 	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
-	<string>ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx</string>
+	<string>ca-app-pub-9999999999999999/9999999999</string>
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
-	<string>ca-app-pub-xxxxxxxxxxxxxxxx/xxxxxxxxxx</string>
+	<string>ca-app-pub-9999999999999999/9999999999</string>
 	<key>CLIENT_ID</key>
-	<string>111111111111111-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com</string>
+	<string>xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.111111111111111-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
+	<string>com.googleusercontent.apps.xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
 	<key>API_KEY</key>
-	<string>xxxxxxxxxxxxxx-xxxxxxxxxxxx-xxxxxxxxxxx</string>
+	<string>xxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1111111111111111</string>
+	<string>999999999999</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.yourcompany.fireredux</string>
+	<string>com.golftocs.firereduxios</string>
 	<key>PROJECT_ID</key>
-	<string>xxxxxxxxxxx-xxxxx</string>
+	<string>xxxxxxxxxxxxx-99999</string>
 	<key>STORAGE_BUCKET</key>
-	<string>xxxxxxxxxxx-xxxxx.appspot.com</string>
+	<string>xxxxxxxxxxxxx-99999.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1111111111111111:ios:xxxxxxxxxxxxxxxx</string>
+	<string>9:999999999999:ios:xxxxxxxxxxxxxxxx</string>
 	<key>DATABASE_URL</key>
-	<string>https://xxxxxxxxxxx-xxxxx.firebaseio.com</string>
+	<string>https://xxxxxxxxxxxxx-99999.firebaseio.com</string>
 </dict>
 </plist>
