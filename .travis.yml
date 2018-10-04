@@ -41,7 +41,15 @@ matrix:
           - tools
           - platform-tools
           - tools
+          - build-tools-26.0.2
+          - build-tools-26.0.3
+          - build-tools-27.0.3
       sudo: false
+      licenses:
+          - 'android-sdk-license-.+'
+      before_install:
+        - yes | sdkmanager "platforms;android-26"
+        - yes | sdkmanager "platforms;android-27"
       addons:
         apt:
           # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
