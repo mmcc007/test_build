@@ -34,6 +34,12 @@ matrix:
         - bash <(curl -s https://codecov.io/bash) -f lcov.info
 
     - env: JOB=DRIVER-ANDROID
+      global:
+        - ANDROID_API_LEVEL=27
+        - EMULATOR_API_LEVEL=22
+        - ANDROID_BUILD_TOOLS_VERSION=27.0.3
+        - ANDROID_ABI="default;armeabi-v7a"
+        - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
       os: linux
       language: android
       android:
@@ -48,8 +54,16 @@ matrix:
       licenses:
           - 'android-sdk-license-.+'
       before_install:
+      before_install:
         - yes | sdkmanager "platforms;android-26"
         - yes | sdkmanager "platforms;android-27"
+        # Install the rest of tools (e.g., avdmanager)
+        - sdkmanager tools
+        # Create and start emulator.
+        - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
+        - sdkmanager --list
+        - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
       addons:
         apt:
           # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
@@ -59,6 +73,10 @@ matrix:
             - libstdc++6
             - fonts-droid
       before_script:
+        # Wait for emulator to startup.
+        - android-wait-for-emulator
+        - adb shell input keyevent 82
+
         - git clone https://github.com/flutter/flutter.git -b beta
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter precache
