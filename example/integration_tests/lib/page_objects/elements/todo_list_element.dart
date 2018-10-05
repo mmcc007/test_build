@@ -24,13 +24,12 @@ class TodoListElement extends TestElement {
     // Since the CircularProgressIndicator runs a continuous animation, if we
     // do not `runUnsynchronized`, this check will never work.
     return driver.runUnsynchronized(() {
-      return widgetExists(driver, _loadingFinder,
-          timeout: Duration(milliseconds: 15000));
-    }, timeout: Duration(milliseconds: 20000));
+      return widgetExists(driver, _loadingFinder, timeout: timeout);
+    }, timeout: timeout);
   }
 
   Future<bool> get isReady => widgetExists(driver, _todoListFinder,
-      timeout: Duration(milliseconds: 10000));
+      timeout: timeout);
 
   TodoItemElement todoItem(String id) => new TodoItemElement(id, driver);
 
