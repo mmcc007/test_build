@@ -4,9 +4,9 @@
 runDriver () {
   cd $1
   if [ -f "lib/main.dart" ]; then
-    if isVarSet $localOpt; then
-       runLocalOption $1
-    else
+#    if isVarSet $localOpt; then
+#       runLocalOption $1
+#    else
       echo "running driver in $1"
       # check if build_runner needs to be run
       # todo: fix build_runner in ./example/built_redux
@@ -22,7 +22,7 @@ runDriver () {
 #        flutter build apk
 #      fi
     fi
-  fi
+#  fi
 }
 
 # options if running locally
@@ -59,4 +59,5 @@ if isVarSet $1; then
 fi
 
 # expects to find most apps at second directory level
-find . -maxdepth 2 -type d -exec bash -c 'runDriver "$0"' {} \;
+#find . -maxdepth 2 -type d -exec bash -c 'runDriver "$0"' {} \;
+runDriver $1
