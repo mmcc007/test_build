@@ -15,12 +15,12 @@ runDriver () {
         flutter packages pub run build_runner build --delete-conflicting-outputs
       fi
       # todo: get input on MVU project to run with driver for screen input
-      if [ $uname == "Darwin" ]; then
+#      if [ $uname == "Darwin" ]; then
         flutter driver test_driver/todo_app.dart
-      else
+#      else
         # android emulator not available in travis so just build apk
-        flutter build apk
-      fi
+#        flutter build apk
+#      fi
     fi
   fi
 }
@@ -59,4 +59,4 @@ if isVarSet $1; then
 fi
 
 # expects to find most apps at second directory level
-find . -maxdepth 2 -type d -exec bash -c 'runDriver "$0"' {} \;
+find . -maxdepth 2 -type directory -exec bash -c 'runDriver "$0"' {} \;

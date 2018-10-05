@@ -1,6 +1,10 @@
+env:
+  global:
+    - EMULATOR_API_LEVEL=22
+    - ANDROID_ABI="default;armeabi-v7a"
 matrix:
-  # This causes the build to complete immediately upon first failure or once
-  # required jobs are green.
+  # This causes the build to complete immediately upon first failure or success
+  # of required jobs, allowing non-required jobs to continue
   fast_finish: true
 
   # Building APK/IPA takes a long time; do not wait for them to finish.
@@ -24,6 +28,7 @@ matrix:
             - fonts-droid
       before_script:
         - git clone https://github.com/flutter/flutter.git -b beta
+        - export PATH="$PATH":"$HOME/.pub-cache/bin"
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter precache
         - flutter doctor
@@ -33,6 +38,7 @@ matrix:
       after_success:
         - bash <(curl -s https://codecov.io/bash) -f lcov.info
 
+    # Run integration tests on android
     - env: JOB=DRIVER-ANDROID
       os: linux
       language: android
@@ -48,8 +54,16 @@ matrix:
       licenses:
           - 'android-sdk-license-.+'
       before_install:
-        - yes | sdkmanager "platforms;android-26"
-        - yes | sdkmanager "platforms;android-27"
+        - sdkmanager --list
+        - yes | sdkmanager "platforms;android-26" > /dev/null
+        - yes | sdkmanager "platforms;android-27" > /dev/null
+        # Install the rest of tools (e.g., avdmanager)
+        - sdkmanager tools
+        # Create and start emulator.
+        - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" >/dev/null
+        - sdkmanager --list
+        - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
       addons:
         apt:
           # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
@@ -59,15 +73,21 @@ matrix:
             - libstdc++6
             - fonts-droid
       before_script:
+        # Wait for emulator to startup.
+        - android-wait-for-emulator
+        - adb shell input keyevent 82
+
         - git clone https://github.com/flutter/flutter.git -b beta
+        - export PATH="$PATH":"$HOME/.pub-cache/bin"
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter precache
-        - flutter doctor
+        - flutter doctor -v
+        - flutter devices
         - pub global activate coverage
       script:
         - ./script/runDriver.sh
 
-    # Builds and runs integration tests on ios.
+    # Run integration tests on ios.
     - env: JOB=DRIVER-IOS
       os: osx
       language: generic
@@ -81,9 +101,10 @@ matrix:
         - brew install cocoapods || echo 'ignore exit(1)'
         - brew link --overwrite cocoapods
         - git clone https://github.com/flutter/flutter.git -b beta
+        - export PATH="$PATH":"$HOME/.pub-cache/bin"
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter precache
-        - flutter doctor
+        - flutter doctor -v
         - flutter devices
       script:
         - ./script/runDriver.sh
