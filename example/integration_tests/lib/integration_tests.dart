@@ -119,13 +119,21 @@ main() {
     });
 
     test('should be able to add a todo', () async {
-      final addScreen = homeScreen.tapAddTodoButton();
       final task = 'Plan day trip to pyramids';
       final note = 'Take picture next to Great Pyramid of Giza!';
+
+      // init to home screen
+      await homeScreen.tapTodosTab();
+      expect(await homeScreen.isReady(), isTrue);
+
+      // go to add screen and enter a _todo
+      final addScreen = homeScreen.tapAddTodoButton();
       await addScreen.enterTask(task);
       await addScreen.enterNote(note);
+
+      // save and return to home screen and find new _todo
       await addScreen.tapSaveNewButton();
-      homeScreen.tapTodosTab();
+      expect(await homeScreen.isReady(), true);
       expect(await driver.getText(find.text(task)), task);
     });
 
@@ -135,25 +143,29 @@ main() {
       final noteEdit =
           'Have lunch next to next to Great Pyramid of Giza and take pictures!';
 
-      // find the _todo to tap on and go to details screen
-      final detailsScreen = await homeScreen.tapTodo(task);
-      expect(await detailsScreen.task, isNotEmpty);
-      expect(await detailsScreen.note, isNotEmpty);
+      // init to home screen
+      await homeScreen.tapTodosTab();
+      expect(await homeScreen.isReady(), isTrue);
 
-      // edit this _todo
+      // find the _todo text to edit and go to details screen
+      final detailsScreen = await homeScreen.tapTodo(task);
+      expect(await detailsScreen.isReady(), isTrue);
+//      expect(await detailsScreen.task, isNotEmpty);
+
+      // go to edit screen and edit this _todo
       final editScreen = detailsScreen.tapEditTodoButton();
       expect(await editScreen.isReady(), isTrue);
-
       await editScreen.editTask(taskEdit);
       await editScreen.editNote(noteEdit);
 
-      // save and review
+      // save and return to details screen
       await editScreen.tapSaveFab();
-      expect(await driver.getText(find.text(taskEdit)), taskEdit);
-      expect(await driver.getText(find.text(noteEdit)), noteEdit);
+        expect(await detailsScreen.isReady(), isTrue);
+        expect(await driver.getText(find.text(taskEdit)), taskEdit);
+        expect(await driver.getText(find.text(noteEdit)), noteEdit);
 
       // check shows up on home screen
-      await editScreen.tapBackButton();
+      await detailsScreen.tapBackButton();
       expect(await homeScreen.isReady(), isTrue);
       expect(await driver.getText(find.text(taskEdit)), taskEdit);
     });
