@@ -12,6 +12,9 @@ runTests () {
       flutter packages get
       flutter packages pub run build_runner build --delete-conflicting-outputs
     fi
+
+    escapedPath="$(echo ${1:2} | sed 's/\//\\\//g')"
+
     # run tests with coverage
     if grep flutter pubspec.yaml > /dev/null; then
       echo "run flutter tests"
@@ -22,7 +25,6 @@ runTests () {
       fi
       if [ -d "coverage" ]; then
         # combine line coverage info from package tests to a common file
-        escapedPath="$(echo ${1:2} | sed 's/\//\\\//g')"
         sed "s/^SF:lib/SF:$escapedPath\/lib/g" coverage/lcov.info >> $2/lcov.info
         rm -rf "coverage"
       fi
@@ -30,13 +32,11 @@ runTests () {
       # pure dart
       echo "run dart tests"
       pub get
-      testFile="test/all_tests.dart"
       pub global run coverage:collect_coverage --port=8111 -o coverage.json --resume-isolates --wait-paused &
-      dart --pause-isolates-on-exit --enable-vm-service=8111 $testFile
+      dart --pause-isolates-on-exit --enable-vm-service=8111 "test/all_tests.dart"
       pub global run coverage:format_coverage --packages=.packages -i coverage.json --report-on lib --lcov --out lcov.info
       if [ -f "lcov.info" ]; then
         # combine line coverage info from package tests to a common file
-        escapedPath="$(echo ${1:2} | sed 's/\//\\\//g')"
         sed "s/^SF:.*lib/SF:$escapedPath\/lib/g" lcov.info >> $2/lcov.info
         rm lcov.info
       fi
@@ -45,6 +45,7 @@ runTests () {
   fi
 }
 
+# export runTests to child process
 export -f runTests
 
 # if running locally
@@ -53,3 +54,11 @@ rm -f lcov.info
 # expects to find most packages at second directory level
 find . -maxdepth 2 -type d -exec bash -c 'runTests "$0" `pwd`' {} \;
 # find exits with 0
+
+# install lcov and uncomment the following line to generate coverage report locally
+#if [ -f "lcov.info" ] && ! [ "$TRAVIS" ]; then
+#  echo "generate code coverage report"
+#  genhtml lcov.info -o coverage --no-function-coverage -s -p `pwd`
+#  open coverage/index.html
+#  rm lcov.info
+#fi

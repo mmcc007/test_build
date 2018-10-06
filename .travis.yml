@@ -7,13 +7,13 @@ matrix:
   # of all required jobs, allowing all non-required jobs to continue
   fast_finish: true
 
-  # todo: MVU project currently fails on add/edit screen so job is allowed to fail
+  # todo: MVU project currently fails on add/edit screen so MVU jobs are allowed to fail
   allow_failures:
     - env: MVU-ANDROID
     - env: MVU-IOS
 
   include:
-    # Runs unit tests without emulators.
+    # Run unit tests without emulators.
     - env: UNIT-TEST
       os: linux
       language: generic
@@ -85,7 +85,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/bloc_flutter
+        - travis_retry ./script/ci.sh ./example/bloc_flutter
 
     # Run integration tests on ios.
     - env: BLOC_FLUTTER-IOS
@@ -107,7 +107,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/bloc_flutter
+        - travis_retry ./script/ci.sh ./example/bloc_flutter
 
     # Run integration tests on android
     - env: BUILT_REDUX-ANDROID
@@ -156,7 +156,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/built_redux
+        - travis_retry ./script/ci.sh ./example/built_redux
 
     # Run integration tests on ios.
     - env: BUILT_REDUX-IOS
@@ -178,7 +178,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/built_redux
+        - travis_retry ./script/ci.sh ./example/built_redux
 
     # Run integration tests on android
     - env: FIRESTORE_REDUX-ANDROID
@@ -227,7 +227,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/firestore_redux
+        - travis_retry ./script/ci.sh ./example/firestore_redux
 
     # Run integration tests on ios.
     - env: FIRESTORE_REDUX-IOS
@@ -249,7 +249,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/firestore_redux
+        - travis_retry ./script/ci.sh ./example/firestore_redux
 
     # Run integration tests on android
     - env: INHERITED_WIDGET-ANDROID
@@ -298,7 +298,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/inherited_widget
+        - travis_retry ./script/ci.sh ./example/inherited_widget
 
     # Run integration tests on ios.
     - env: INHERITED_WIDGET-IOS
@@ -320,7 +320,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/inherited_widget
+        - travis_retry ./script/ci.sh ./example/inherited_widget
 
     # Run integration tests on android
     - env: MVI_FLUTTER-ANDROID
@@ -369,7 +369,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/mvi_flutter
+        - travis_retry ./script/ci.sh ./example/mvi_flutter
 
     # Run integration tests on ios.
     - env: MVI_FLUTTER-IOS
@@ -391,7 +391,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/mvi_flutter
+        - travis_retry ./script/ci.sh ./example/mvi_flutter
 
     # Run integration tests on android
     - env: MVU-ANDROID
@@ -440,7 +440,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/mvu
+        - travis_retry ./script/ci.sh ./example/mvu
 
     # Run integration tests on ios.
     - env: MVU-IOS
@@ -462,7 +462,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/mvu
+        - travis_retry ./script/ci.sh ./example/mvu
 
     # Run integration tests on android
     - env: REDURX-ANDROID
@@ -511,7 +511,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/redurx
+        - travis_retry ./script/ci.sh ./example/redurx
 
     # Run integration tests on ios.
     - env: REDURX-IOS
@@ -533,7 +533,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/redurx
+        - travis_retry ./script/ci.sh ./example/redurx
 
     # Run integration tests on android
     - env: REDUX-ANDROID
@@ -582,7 +582,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/redux
+        - travis_retry ./script/ci.sh ./example/redux
 
     # Run integration tests on ios.
     - env: REDUX-IOS
@@ -604,7 +604,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/redux
+        - travis_retry ./script/ci.sh ./example/redux
 
     # Run integration tests on android
     - env: SCOPED_MODEL-ANDROID
@@ -653,7 +653,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/scoped_model
+        - travis_retry ./script/ci.sh ./example/scoped_model
 
     # Run integration tests on ios.
     - env: SCOPED_MODEL-IOS
@@ -675,7 +675,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/scoped_model
+        - travis_retry ./script/ci.sh ./example/scoped_model
 
     # Run integration tests on android
     - env: SIMPLE_BLOC_FLUTTER-ANDROID
@@ -724,7 +724,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/simple_bloc_flutter
+        - travis_retry ./script/ci.sh ./example/simple_bloc_flutter
 
     # Run integration tests on ios.
     - env: SIMPLE_BLOC_FLUTTER-IOS
@@ -746,7 +746,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/simple_bloc_flutter
+        - travis_retry ./script/ci.sh ./example/simple_bloc_flutter
 
     # Run integration tests on android
     - env: VANILLA-ANDROID
@@ -795,7 +795,7 @@ matrix:
         - flutter devices
         - pub global activate coverage
       script:
-        - travis_retry ./script/runDriver.sh ./example/vanilla
+        - travis_retry ./script/ci.sh ./example/vanilla
 
     # Run integration tests on ios.
     - env: VANILLA-IOS
@@ -817,7 +817,7 @@ matrix:
         - flutter doctor -v
         - flutter devices
       script:
-        - travis_retry ./script/runDriver.sh ./example/vanilla
+        - travis_retry ./script/ci.sh ./example/vanilla
 
 cache:
   directories:

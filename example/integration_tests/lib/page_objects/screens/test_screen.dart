@@ -5,7 +5,6 @@
 import 'dart:async';
 
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:meta/meta.dart';
 
 abstract class TestScreen {
   // increase default driver command timeout from 5 to 20
@@ -15,9 +14,9 @@ abstract class TestScreen {
 
   TestScreen(this.driver);
 
-  Future<bool> isLoading({@required Duration timeout}) async {
+  Future<bool> isLoading({Duration timeout}) async {
     return !(await isReady(timeout: timeout));
   }
 
-  Future<bool> isReady({@required Duration timeout});
+  Future<bool> isReady({Duration timeout});
 }
