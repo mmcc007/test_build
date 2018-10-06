@@ -71,6 +71,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
                 decoration: InputDecoration(
                   hintText: ArchSampleLocalizations.of(context).notesHint,
                 ),
+                onSaved: (value) => _note = value,
               )
             ],
           ),

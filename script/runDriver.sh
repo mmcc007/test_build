@@ -12,11 +12,11 @@ where:
     --analyze
         analyzes dart code for all packages
     --ios
-        builds ios release for all projects
+        builds ios release for all apps
     --apk
-        builds android release for all projects
+        builds android release for all apps
     --driver
-        runs flutter driver for all projects
+        runs flutter driver for all apps
         (requires a single running emulator/simulator)
     --clean
         cleans all builds
