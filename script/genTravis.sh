@@ -14,12 +14,12 @@ matrix:
 
   # todo: MVU project currently fails on add/edit screen so job is allowed to fail
   allow_failures:
-    - env: JOB=MVU-ANDROID
-    - env: JOB=MVU-IOS
+    - env: MVU-ANDROID
+    - env: MVU-IOS
 
   include:
     # Runs unit tests without emulators.
-    - env: JOB=UNIT-TEST
+    - env: UNIT-TEST
       os: linux
       language: generic
       sudo: false
@@ -53,7 +53,7 @@ do
 
 	read -r -d '' androidTemplate << EOM
     # Run integration tests on android
-    - env: JOB=$PROJECT-ANDROID
+    - env: $PROJECT-ANDROID
       os: linux
       language: android
       android:
@@ -105,7 +105,7 @@ EOM
 	echo
 	read -r -d '' iosTemplate << EOM
     # Run integration tests on ios.
-    - env: JOB=$PROJECT-IOS
+    - env: $PROJECT-IOS
       os: osx
       language: generic
       osx_image: xcode9.0
