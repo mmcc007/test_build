@@ -16,7 +16,7 @@ where:
     --apk
         build android release for all apps
     --driver
-        run integration tests all apps
+        run integration tests for all apps
         (expects a single running emulator/simulator)
     --clean
         clean all builds
@@ -30,7 +30,7 @@ where:
 runDriver () {
     cd $1
     if [ -f "lib/main.dart" ]; then
-        echo "run integration tests in $1"
+        echo "Running integration tests in $1..."
         # check if build_runner needs to be run
         # todo: fix build_runner in ./example/built_redux
         if grep build_runner pubspec.yaml > /dev/null  && [ "$1" != "./example/built_redux" ]; then
@@ -40,12 +40,14 @@ runDriver () {
             # todo: get input on MVU project to pass screen i/o integration tests
             flutter driver test_driver/todo_app.dart
     fi
+    exitCode=$?
     cd - > /dev/null
+    return $exitCode
 }
 
+# run function in all dirs
+# expects a function name
 allDirs() {
-    # run function in all dirs
-    # expects a function name
     dirs=(`find . -maxdepth 2 -type d`)
     for dir in "${dirs[@]}"; do
         $1 $dir
@@ -88,7 +90,7 @@ runClean() {
     cd - > /dev/null
 }
 
-# if nothing passed
+# if no arguments passed
 if [ -z $1 ]; then show_help; fi
 
 if ! [ -d .git ]; then printf "\nError: not in root of repo"; show_help; fi

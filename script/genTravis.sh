@@ -6,7 +6,7 @@ projects=( bloc_flutter built_redux firestore_redux inherited_widget mvi_flutter
 read -r -d '' header << EOM
 env:
   global:
-    - EMULATOR_API_LEVEL=16
+    - EMULATOR_API_LEVEL=22
     - ANDROID_ABI="default;armeabi-v7a"
 matrix:
   # This causes the build to complete immediately upon failure or success
