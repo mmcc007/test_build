@@ -1,6 +1,6 @@
 env:
   global:
-    - EMULATOR_API_LEVEL=22
+    - EMULATOR_API_LEVEL=16
     - ANDROID_ABI="default;armeabi-v7a"
 matrix:
   # This causes the build to complete immediately upon failure or success
@@ -15,9 +15,9 @@ matrix:
   include:
     # Run unit tests without emulators.
     - env: UNIT-TEST
+      sudo: false
       os: linux
       language: generic
-      sudo: false
       addons:
         apt:
           # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
@@ -40,6 +40,7 @@ matrix:
 
     # Run integration tests on android
     - env: BLOC_FLUTTER-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -50,7 +51,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -90,8 +90,7 @@ matrix:
     # Run integration tests on ios.
     - env: BLOC_FLUTTER-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -111,6 +110,7 @@ matrix:
 
     # Run integration tests on android
     - env: BUILT_REDUX-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -121,7 +121,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -161,8 +160,7 @@ matrix:
     # Run integration tests on ios.
     - env: BUILT_REDUX-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -182,6 +180,7 @@ matrix:
 
     # Run integration tests on android
     - env: FIRESTORE_REDUX-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -192,7 +191,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -232,8 +230,7 @@ matrix:
     # Run integration tests on ios.
     - env: FIRESTORE_REDUX-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -253,6 +250,7 @@ matrix:
 
     # Run integration tests on android
     - env: INHERITED_WIDGET-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -263,7 +261,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -303,8 +300,7 @@ matrix:
     # Run integration tests on ios.
     - env: INHERITED_WIDGET-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -324,6 +320,7 @@ matrix:
 
     # Run integration tests on android
     - env: MVI_FLUTTER-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -334,7 +331,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -374,8 +370,7 @@ matrix:
     # Run integration tests on ios.
     - env: MVI_FLUTTER-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -395,6 +390,7 @@ matrix:
 
     # Run integration tests on android
     - env: MVU-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -405,7 +401,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -445,8 +440,7 @@ matrix:
     # Run integration tests on ios.
     - env: MVU-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -466,6 +460,7 @@ matrix:
 
     # Run integration tests on android
     - env: REDURX-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -476,7 +471,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -516,8 +510,7 @@ matrix:
     # Run integration tests on ios.
     - env: REDURX-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -537,6 +530,7 @@ matrix:
 
     # Run integration tests on android
     - env: REDUX-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -547,7 +541,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -587,8 +580,7 @@ matrix:
     # Run integration tests on ios.
     - env: REDUX-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -608,6 +600,7 @@ matrix:
 
     # Run integration tests on android
     - env: SCOPED_MODEL-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -618,7 +611,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -658,8 +650,7 @@ matrix:
     # Run integration tests on ios.
     - env: SCOPED_MODEL-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -679,6 +670,7 @@ matrix:
 
     # Run integration tests on android
     - env: SIMPLE_BLOC_FLUTTER-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -689,7 +681,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -729,8 +720,7 @@ matrix:
     # Run integration tests on ios.
     - env: SIMPLE_BLOC_FLUTTER-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
@@ -750,6 +740,7 @@ matrix:
 
     # Run integration tests on android
     - env: VANILLA-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -760,7 +751,6 @@ matrix:
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -800,8 +790,7 @@ matrix:
     # Run integration tests on ios.
     - env: VANILLA-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update

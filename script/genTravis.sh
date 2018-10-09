@@ -6,7 +6,7 @@ projects=( bloc_flutter built_redux firestore_redux inherited_widget mvi_flutter
 read -r -d '' header << EOM
 env:
   global:
-    - EMULATOR_API_LEVEL=22
+    - EMULATOR_API_LEVEL=16
     - ANDROID_ABI="default;armeabi-v7a"
 matrix:
   # This causes the build to complete immediately upon failure or success
@@ -21,9 +21,9 @@ matrix:
   include:
     # Run unit tests without emulators.
     - env: UNIT-TEST
+      sudo: false
       os: linux
       language: generic
-      sudo: false
       addons:
         apt:
           # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
@@ -55,6 +55,7 @@ do
 	read -r -d '' androidTemplate << EOM
     # Run integration tests on android
     - env: $PROJECT-ANDROID
+      sudo: false
       os: linux
       language: android
       android:
@@ -65,7 +66,6 @@ do
           - build-tools-26.0.2
           - build-tools-26.0.3
           - build-tools-27.0.3
-      sudo: false
       licenses:
           - 'android-sdk-license-.+'
       before_install:
@@ -108,8 +108,7 @@ EOM
     # Run integration tests on ios.
     - env: $PROJECT-IOS
       os: osx
-      language: generic
-      osx_image: xcode9.0
+      osx_image: xcode8.0
       before_script:
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update

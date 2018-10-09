@@ -1,7 +1,28 @@
 #!/usr/bin/env bash
 
-# runs tests for a package that has tests
-# does not run integration tests
+show_help() {
+    printf "usage: $0 [--help] [--report] [<path to package>]
+
+Tool for running all unit and widget tests with code coverage.
+(run from root of repo)
+
+where:
+    <path to package>
+        run tests for package at path only
+        (otherwise runs all tests)
+    --report
+        run a coverage report
+        (requires lcov installed)
+    --help
+        prints this message
+
+requires code_coverage package
+(install with 'pub global activate coverage')
+"
+    exit 1
+}
+
+# run unit and widget tests
 runTests () {
   cd $1;
   if [ -f "pubspec.yaml" ] && [ -d "test" ]; then
@@ -13,7 +34,7 @@ runTests () {
       flutter packages pub run build_runner build --delete-conflicting-outputs
     fi
 
-    escapedPath="$(echo ${1:2} | sed 's/\//\\\//g')"
+    escapedPath="$(echo $1 | sed 's/\//\\\//g')"
 
     # run tests with coverage
     if grep flutter pubspec.yaml > /dev/null; then
@@ -43,22 +64,46 @@ runTests () {
       rm -f coverage.json
     fi
   fi
+  cd - > /dev/null
 }
 
-# export runTests to child process
-export -f runTests
+runReport() {
+    if [ -f "lcov.info" ] && ! [ "$TRAVIS" ]; then
+        genhtml lcov.info -o coverage --no-function-coverage -s -p `pwd`
+        open coverage/index.html
+    fi
+}
 
-# if running locally
-rm -f lcov.info
+if ! [ -d .git ]; then printf "\nError: not in root of repo"; show_help; fi
 
-# expects to find most packages at second directory level
-find . -maxdepth 2 -type d -exec bash -c 'runTests "$0" `pwd`' {} \;
-# find exits with 0
+case $1 in
+    --help)
+        show_help
+        ;;
+    --report)
+        if ! [ -z ${2+x} ]; then
+            printf "\nError: no extra parameters required: $2"
+            show_help
+        fi
+        runReport
+        ;;
+    *)
+        # if no parameter passed
+        if [ -z $1 ]; then
+            rm -f lcov.info
+            dirs=(`find . -maxdepth 2 -type d`)
+            currentDir=`pwd`
+            for dir in "${dirs[@]}"; do
+                runTests $dir $currentDir
+            done
+        else
+            if [[ -d "$1" ]]; then
+                runTests $1 `pwd`
+            else
+                printf "\nError: not a directory: $1"
+                show_help
+            fi
+        fi
+        ;;
+esac
 
-# install lcov and uncomment the following line to generate coverage report locally
-#if [ -f "lcov.info" ] && ! [ "$TRAVIS" ]; then
-#  echo "generate code coverage report"
-#  genhtml lcov.info -o coverage --no-function-coverage -s -p `pwd`
-#  open coverage/index.html
-#  rm lcov.info
-#fi
