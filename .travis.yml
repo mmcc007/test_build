@@ -72,8 +72,7 @@ jobs:
         - export PATH="$PATH":"$HOME/.pub-cache/bin"
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter precache
-        - flutter doctor -v --android-licenses
-
+        - flutter doctor -v
         # Wait for emulator to startup.
         - PATH="${ANDROID_TOOLS_ROOT}/platform-tools:${PATH}" # add adb to path
         - ./scripts/android-wait-for-emulator.sh
