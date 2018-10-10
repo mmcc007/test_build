@@ -45,7 +45,7 @@ jobs:
         - sdkmanager "extras;google;m2repository" > /dev/null
         - sdkmanager --list | head -15
         # install older packages (for emulator)
-        - yes | sdkmanager "build-tools;25.0.2" "platforms;android-25" "extras;google;google_play_services" > /dev/null
+        - sdkmanager "build-tools;25.0.2" "platforms;android-25" "extras;google;google_play_services" > /dev/null
         # Create and start emulator.
         - EMULATOR_API_LEVEL=22
         - ANDROID_ABI="default;armeabi-v7a"
@@ -73,14 +73,14 @@ jobs:
       before_install: &before_install_osx
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
         - brew update
-        - brew install libimobiledevice || echo 'ignore exit(1)'
+        - brew install libimobiledevice
         - brew install ideviceinstaller
         - brew install ios-deploy
         - brew install cocoapods || echo 'ignore exit(1)'
         - brew link --overwrite cocoapods
         - git clone https://github.com/flutter/flutter.git -b beta
-        - export PATH="\$PATH":"\$HOME/.pub-cache/bin"
-        - export PATH=\`pwd\`/flutter/bin:\`pwd\`/flutter/bin/cache/dart-sdk/bin:\$PATH
+        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter precache
         - flutter doctor -v
         - flutter devices
