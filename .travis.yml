@@ -14,14 +14,14 @@ jobs:
       os: linux
       env: UNIT-TESTS
       before_script:
-        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6
+        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
         - git clone https://github.com/flutter/flutter.git -b beta
         - export PATH="$PATH":"$HOME/.pub-cache/bin"
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter precache
         - flutter doctor -v
         - pub global activate coverage
-      script: ./script/runTests.sh
+      script: ./scripts/runTests.sh
       after_success: bash <(curl -s https://codecov.io/bash) -f lcov.info
 
 
@@ -92,7 +92,7 @@ jobs:
     - <<: *integration-test-staging
       os: linux
       env: built_redux_android
-      script: travis_retry ./script/ci.sh ./example/built_redux
+      script: travis_retry ./scripts/ci.sh ./example/built_redux
     - <<: *integration-test-staging
       os: osx
       env: built_redux_ios
@@ -101,7 +101,7 @@ jobs:
     - <<: *integration-test-staging
       os: linux
       env: firestore_redux_android
-      script: travis_retry ./script/ci.sh ./example/firestore_redux
+      script: travis_retry ./scripts/ci.sh ./example/firestore_redux
     - <<: *integration-test-staging
       os: osx
       env: firestore_redux_ios
