@@ -66,106 +66,129 @@ jobs:
       script: travis_retry ./scripts/ci.sh ./example/bloc_flutter
     - <<: *integration-test-staging
       os: osx
+      # use oldest supported version of xcode
+      osx_image: xcode8.0
       env: bloc_flutter_ios
-    # Run integration tests on ios
+      # Run integration tests on ios
       before_install: &before_install_osx
-        - echo before install osx 1
-        - echo before install osx 2
-#      script: travis_retry ./script/ci.sh ./example/bloc_flutter
-      script: echo Done
+        - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
+        - brew update
+        - brew install libimobiledevice || echo 'ignore exit(1)'
+        - brew install ideviceinstaller
+        - brew install ios-deploy
+        - brew install cocoapods || echo 'ignore exit(1)'
+        - brew link --overwrite cocoapods
+        - git clone https://github.com/flutter/flutter.git -b beta
+        - export PATH="\$PATH":"\$HOME/.pub-cache/bin"
+        - export PATH=\`pwd\`/flutter/bin:\`pwd\`/flutter/bin/cache/dart-sdk/bin:\$PATH
+        - flutter precache
+        - flutter doctor -v
+        - flutter devices
+      script: travis_retry ./script/ci.sh ./example/bloc_flutter
     - <<: *integration-test-staging
       os: linux
       env: built_redux_android
       script: travis_retry ./scripts/ci.sh ./example/built_redux
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: built_redux_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/built_redux
     - <<: *integration-test-staging
       os: linux
       env: firestore_redux_android
       script: travis_retry ./scripts/ci.sh ./example/firestore_redux
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: firestore_redux_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/firestore_redux
     - <<: *integration-test-staging
       os: linux
       env: inherited_widget_android
       script: travis_retry ./scripts/ci.sh ./example/inherited_widget
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: inherited_widget_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/inherited_widget
     - <<: *integration-test-staging
       os: linux
       env: mvi_flutter_android
       script: travis_retry ./scripts/ci.sh ./example/mvi_flutter
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: mvi_flutter_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/mvi_flutter
     - <<: *integration-test-staging
       os: linux
       env: mvu_android
       script: travis_retry ./scripts/ci.sh ./example/mvu
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: mvu_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/mvu
     - <<: *integration-test-staging
       os: linux
       env: redurx_android
       script: travis_retry ./scripts/ci.sh ./example/redurx
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: redurx_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/redurx
     - <<: *integration-test-staging
       os: linux
       env: redux_android
       script: travis_retry ./scripts/ci.sh ./example/redux
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: redux_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/redux
     - <<: *integration-test-staging
       os: linux
       env: scoped_model_android
       script: travis_retry ./scripts/ci.sh ./example/scoped_model
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: scoped_model_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/scoped_model
     - <<: *integration-test-staging
       os: linux
       env: simple_bloc_flutter_android
       script: travis_retry ./scripts/ci.sh ./example/simple_bloc_flutter
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: simple_bloc_flutter_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/simple_bloc_flutter
     - <<: *integration-test-staging
       os: linux
       env: vanilla_android
       script: travis_retry ./scripts/ci.sh ./example/vanilla
     - <<: *integration-test-staging
       os: osx
+      osx_image: xcode8.0
       env: vanilla_ios
       before_install: *before_install_osx
-      script: echo Done
+      script: travis_retry ./scripts/ci.sh ./example/vanilla
 
     - stage: Ready to deploy
       os: osx
+      language: generic
       env: not implemented
       install: skip # bundle install is not required
       script: echo "Deploying to store ..."
