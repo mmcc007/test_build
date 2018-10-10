@@ -84,7 +84,7 @@ jobs:
         - flutter precache
         - flutter doctor -v
         - flutter devices
-      script: travis_retry ./script/ci.sh ./example/bloc_flutter
+      script: travis_retry ./scripts/ci.sh ./example/bloc_flutter
     - <<: *integration-test-staging
       os: linux
       env: built_redux_android
@@ -189,7 +189,7 @@ jobs:
     - stage: Ready to deploy
       os: osx
       language: generic
-      env: not implemented
+      env: not implemented 🤓
       install: skip # bundle install is not required
       script: echo "Deploying to store ..."
 
