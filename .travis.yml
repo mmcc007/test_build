@@ -41,11 +41,12 @@ jobs:
         - yes | sdkmanager --licenses
         # Platform tools
         - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
-        - sdkmanager "extras;android;m2repository" > /dev/null
-        - sdkmanager "extras;google;m2repository" > /dev/null
+#        - sdkmanager "extras;android;m2repository" > /dev/null
+#        - sdkmanager "extras;google;m2repository" > /dev/null
         - sdkmanager --list | head -15
         # install older packages (for emulator)
-        - sdkmanager "build-tools;25.0.2" "platforms;android-25" "extras;google;google_play_services" > /dev/null
+#        - sdkmanager "build-tools;25.0.2" "platforms;android-25" "extras;google;google_play_services" > /dev/null
+        - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
         # Create and start emulator.
         - EMULATOR_API_LEVEL=22
         - ANDROID_ABI="default;armeabi-v7a"
@@ -66,7 +67,7 @@ jobs:
       script: travis_retry ./scripts/ci.sh ./example/bloc_flutter
     - <<: *integration-test-staging
       os: osx
-      # use oldest supported version of xcode
+      # use oldest flutter supported version of xcode
       osx_image: xcode8.0
       env: bloc_flutter_ios
       # Run integration tests on ios
@@ -190,7 +191,6 @@ jobs:
       os: osx
       language: generic
       env: not implemented 🤓
-      install: skip # bundle install is not required
       script: echo "Deploying to store ..."
 
   allow_failures:
