@@ -8,22 +8,20 @@ env:
 jobs:
   include:
 
-
-#    - stage: Unit Testing
-#      language: generic
-#      os: linux
-#      env: UNIT-TESTS
-#      before_script:
-#        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-#        - git clone https://github.com/flutter/flutter.git -b beta
-#        - export PATH="$PATH":"$HOME/.pub-cache/bin"
-#        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
-#        - flutter precache
-#        - flutter doctor -v
-#        - pub global activate coverage
-#      script: ./scripts/runTests.sh
-#      after_success: bash <(curl -s https://codecov.io/bash) -f lcov.info
-
+    - stage: Unit Testing
+      language: generic
+      os: linux
+      env: UNIT-TESTS
+      before_script:
+        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+        - git clone https://github.com/flutter/flutter.git -b beta
+        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+        - flutter precache
+        - flutter doctor -v
+        - pub global activate coverage
+      script: ./scripts/runTests.sh
+      after_success: bash <(curl -s https://codecov.io/bash) -f lcov.info
 
     - &integration-test-staging
       stage: Integration Testing
@@ -31,7 +29,7 @@ jobs:
       dist: trusty
       language: generic
       os: linux
-      env: BLOC-FLUTTER-ANDROID
+      env: bloc_flutter_android
       # Run integration tests on android
       before_install: &before_install_linux
         - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
@@ -55,10 +53,8 @@ jobs:
         - yes "y" | sdkmanager "platform-tools" > /dev/null
         - yes "y" | sdkmanager "extras;android;m2repository" > /dev/null
         - yes "y" | sdkmanager "extras;google;m2repository" > /dev/null
-
         - sdkmanager --install emulator > /dev/null
         - sdkmanager --list | head -15
-
         # install older packages
         - yes | sdkmanager "build-tools;25.0.2" "platforms;android-25" "extras;google;google_play_services" > /dev/null
         # Create and start emulator.
@@ -66,7 +62,6 @@ jobs:
         - sdkmanager --list | head -15
         - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
         - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
-
         # install flutter
         - git clone https://github.com/flutter/flutter.git -b beta
         - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -81,7 +76,7 @@ jobs:
       script: travis_retry ./scripts/ci.sh ./example/bloc_flutter
     - <<: *integration-test-staging
       os: osx
-      env: BLOC-FLUTTER-IOS
+      env: bloc_flutter_ios
     # Run integration tests on ios
       before_install: &before_install_osx
         - echo before install osx 1
@@ -106,24 +101,84 @@ jobs:
       env: firestore_redux_ios
       before_install: *before_install_osx
       script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: inherited_widget_android
+      script: travis_retry ./scripts/ci.sh ./example/inherited_widget
+    - <<: *integration-test-staging
+      os: osx
+      env: inherited_widget_ios
+      before_install: *before_install_osx
+      script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: mvi_flutter_android
+      script: travis_retry ./scripts/ci.sh ./example/mvi_flutter
+    - <<: *integration-test-staging
+      os: osx
+      env: mvi_flutter_ios
+      before_install: *before_install_osx
+      script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: mvu_android
+      script: travis_retry ./scripts/ci.sh ./example/mvu
+    - <<: *integration-test-staging
+      os: osx
+      env: mvu_ios
+      before_install: *before_install_osx
+      script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: redurx_android
+      script: travis_retry ./scripts/ci.sh ./example/redurx
+    - <<: *integration-test-staging
+      os: osx
+      env: redurx_ios
+      before_install: *before_install_osx
+      script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: redux_android
+      script: travis_retry ./scripts/ci.sh ./example/redux
+    - <<: *integration-test-staging
+      os: osx
+      env: redux_ios
+      before_install: *before_install_osx
+      script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: scoped_model_android
+      script: travis_retry ./scripts/ci.sh ./example/scoped_model
+    - <<: *integration-test-staging
+      os: osx
+      env: scoped_model_ios
+      before_install: *before_install_osx
+      script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: simple_bloc_flutter_android
+      script: travis_retry ./scripts/ci.sh ./example/simple_bloc_flutter
+    - <<: *integration-test-staging
+      os: osx
+      env: simple_bloc_flutter_ios
+      before_install: *before_install_osx
+      script: echo Done
+    - <<: *integration-test-staging
+      os: linux
+      env: vanilla_android
+      script: travis_retry ./scripts/ci.sh ./example/vanilla
+    - <<: *integration-test-staging
+      os: osx
+      env: vanilla_ios
+      before_install: *before_install_osx
+      script: echo Done
 
-
-    - stage: deploy to staging
+    - stage: Ready to deploy
       os: osx
       install: skip # bundle install is not required
-      script: echo "Deploying to staging ..."
-
-
-    - &test-staging
-      stage: test staging
-      os: osx
-      install: skip
-      script: echo "Testing staging, shard 1 ..."
-    - <<: *test-staging
-      script: echo "Testing staging, shard 2 ..."
-    - <<: *test-staging
-      script: echo "Testing staging, shard 3 ..."
-
+      script: echo "Deploying to store ..."
 
   allow_failures:
-    - env: INT_TEST=Test2
+    - env: mvu_android
+    - env: mvu_ios
