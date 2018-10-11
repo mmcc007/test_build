@@ -86,6 +86,7 @@ runClean() {
         flutter clean > /dev/null
         rm -rf ios/Pods ios/Podfile.lock
         rm -rf android/.gradle
+        rm -rf coverage
     fi
     cd - > /dev/null
 }
