@@ -1,20 +1,20 @@
 jobs:
   include:
 
-#    - stage: Unit Testing
-#      language: generic
-#      os: linux
-#      env: UNIT-TESTS
-#      before_script:
-#        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-#        - git clone https://github.com/flutter/flutter.git -b beta
-#        - export PATH="$PATH":"$HOME/.pub-cache/bin"
-#        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
-#        - flutter precache
-#        - flutter doctor -v
-#        - pub global activate coverage
-#      script: ./scripts/runTests.sh
-#      after_success: bash <(curl -s https://codecov.io/bash) -f lcov.info
+    - stage: Unit Testing
+      language: generic
+      os: linux
+      env: UNIT-TESTS
+      before_script:
+        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+        - git clone https://github.com/flutter/flutter.git -b beta
+        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+        - flutter precache
+        - flutter doctor -v
+        - pub global activate coverage
+      script: ./scripts/runTests.sh
+      after_success: bash <(curl -s https://codecov.io/bash) -f lcov.info
 
     - &integration-test-staging
       stage: Integration Testing
@@ -41,11 +41,8 @@ jobs:
         - yes | sdkmanager --licenses
         # Platform tools
         - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
-#        - sdkmanager "extras;android;m2repository" > /dev/null
-#        - sdkmanager "extras;google;m2repository" > /dev/null
         - sdkmanager --list | head -15
         # install older packages (for emulator)
-#        - sdkmanager "build-tools;25.0.2" "platforms;android-25" "extras;google;google_play_services" > /dev/null
         - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
         # Create and start emulator.
         - EMULATOR_API_LEVEL=22
@@ -73,7 +70,7 @@ jobs:
       # Run integration tests on ios
       before_install: &before_install_osx
         - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
-        - brew update
+        - HOMEBREW_NO_AUTO_UPDATE=1
         - brew install libimobiledevice
         - brew install ideviceinstaller
         - brew install ios-deploy
