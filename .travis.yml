@@ -46,7 +46,7 @@ jobs:
         - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
         # Create and start emulator.
         - EMULATOR_API_LEVEL=25
-        - ANDROID_ABI="google_apis;arm64-v8a"
+        - ANDROID_ABI="google_apis;armeabi-v7a"
         - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" > /dev/null
         - sdkmanager --list | head -15
         - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
